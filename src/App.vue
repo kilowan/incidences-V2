@@ -1,6 +1,6 @@
 <template>
   <lx-empty>
-    <login v-if="page == 'Login'" id="Login" @logedIn="logedIn($event)"></login>
+    <login v-if="page == 'Login'" :message="message" id="Login" @logedIn="logedIn($event)"></login>
     <!-- Menu -->
     <div v-if="page == 'Menu'" id="Menu">
       <div class="cabecera">
@@ -45,7 +45,7 @@
         </div>
 
         <div class="Pie">
-          <p>Trabajo realizado por Jose Javier Valero Fuentes y Juan Francisco Navarro Ramiro para el curso de ASIR 2º X migrado a Vue.js</p>
+          <p>{{ message }}</p>
         </div>
     </div>
   </lx-empty>
@@ -60,6 +60,7 @@ import statistics from './components/statistics.vue';
 import employeeList from './components/employeeList.vue';
 import incidences from './components/incidences.vue';
 
+const message = 'Trabajo realizado por Jose Javier Valero Fuentes y Juan Francisco Navarro Ramiro para el curso de ASIR 2º X migrado a Vue.js';
 export default {
   name: 'App',
   components: {
@@ -79,6 +80,7 @@ export default {
       incidences: undefined,
       incidencesCount: 0,
       reload: false,
+      message: message,
     }
   },
   methods: {

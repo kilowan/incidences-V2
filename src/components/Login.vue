@@ -18,7 +18,7 @@
 		<div class="cuerpo">
 		</div>
 		<div class="Pie">
-			<p>Trabajo realizado por Jose Javier Valero Fuentes y Juan Francisco Navarro Ramiro para el curso de ASIR 2º X migrado a Vue.js</p>
+			<p>{{ message }}</p>
 		</div>
   </div>
 </div>
@@ -30,6 +30,12 @@ import axios from 'axios';
 
 export default {
   name: 'Login',
+  props:{
+    message: {
+      type: String,
+      required: false
+    },
+  },
   components: {
   },
   data:function()
