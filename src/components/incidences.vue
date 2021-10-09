@@ -1,5 +1,5 @@
 <template>
-  <lx-empty>
+  <div>
     <!-- own incidences -->
     <br /><div v-if="!incidence">
       <table>
@@ -82,7 +82,7 @@
         @stepBack="back()"
         />
     </div>
-  </lx-empty>
+  </div>
 </template>
 
 <script>

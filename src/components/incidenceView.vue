@@ -1,5 +1,5 @@
 <template>
-  <lx-empty>
+  <div>
     <!-- incidenceView -->
     <br />
     <table>
@@ -115,7 +115,7 @@
         </div>
       </div>
     <br /><a href="#" @click="back()" class="link" center>Atrás</a>
-  </lx-empty>
+  </div>
 </template>
 
 <script>

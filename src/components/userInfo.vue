@@ -1,5 +1,5 @@
 <template>
-  <lx-empty>
+  <div>
     <div v-if="user">
       <!-- userInfo -->
       <br /><table>
@@ -41,7 +41,7 @@
       </tr>
       </table><br />
     </div>
-  </lx-empty>
+  </div>
 </template>
 
 <script>

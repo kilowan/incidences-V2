@@ -12,7 +12,7 @@
 				<div class="login">
 					<input class="input" name="username" type="text" id="username" v-model="form.username" placeholder="username" required />
           <input class="input" name="password" type="password" id="password" v-model="form.pass" placeholder="password" required/>
-					<button class="btn btn-primary" @click="onSubmit()" v-if="form.username && form.pass" type="submit" variant="primary">LOGIN</button>
+					<b-button class="btn btn-primary" @click="onSubmit()" v-if="form.username && form.pass" type="submit" variant="primary">LOGIN</b-button>
 				</div>
 		</div>
 		<div class="cuerpo">

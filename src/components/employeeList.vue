@@ -1,5 +1,5 @@
 <template>
-  <lx-empty>
+  <div>
     <!-- employeeList -->
     <div id="employeList" v-if="mod=='employeeList'">
       <br /><table>
@@ -55,7 +55,7 @@
       @stepBack="mod = 'employeeList'"
       @reload="reload()"/>
     </div>
-  </lx-empty>
+  </div>
 </template>
 
 <script>

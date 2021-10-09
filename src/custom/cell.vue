@@ -1,12 +1,12 @@
 <template>
-  <lx-empty>
+  <div>
     <th v-if="header && html" v-html="html" />
     <th v-else-if="header && link" >
       <a href="#" @click="$emit('selectTab')">{{ text }}</a>
     </th>
     <th v-else-if="header">{{ text }}</th>
     <td v-else>{{ text }}</td>
-  </lx-empty>
+  </div>
 </template>
 
 <script>

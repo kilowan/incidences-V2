@@ -1,5 +1,5 @@
 <template>
-  <lx-empty>
+  <div>
     <login v-if="page == 'Login'" :message="message" id="Login" @logedIn="logedIn($event)"></login>
     <!-- Menu -->
     <div v-if="page == 'Menu'" id="Menu">
@@ -48,7 +48,7 @@
           <p>{{ message }}</p>
         </div>
     </div>
-  </lx-empty>
+  </div>
 </template>
 
 <script>

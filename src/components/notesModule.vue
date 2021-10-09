@@ -1,5 +1,5 @@
 <template>
-  <lx-empty>
+  <div>
     <table>
       <tr>
         <th colspan="2">Notas</th>
@@ -17,7 +17,7 @@
         <a href="#" @click="addOn()">Añadir</a>
       </tr>
     </table><br />
-  </lx-empty>
+  </div>
 </template>
 
 <script>
