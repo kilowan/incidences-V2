@@ -1,8 +1,7 @@
 <template>
-  <div>
     <login v-if="page == 'Login'" :message="message" id="Login" @logedIn="logedIn($event)"></login>
     <!-- Menu -->
-    <div v-if="page == 'Menu'" id="Menu">
+    <div v-else-if="page == 'Menu'" id="Menu">
       <div class="cabecera">
         <p class="mensaje">Bienvenido {{user.name}} {{user.surname1}} {{user.surname2}}</p>
         <div class="Logo">
@@ -48,7 +47,6 @@
           <p>{{ message }}</p>
         </div>
     </div>
-  </div>
 </template>
 
 <script>

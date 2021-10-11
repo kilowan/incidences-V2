@@ -1,5 +1,4 @@
 <template>
-  <div>
     <!-- own incidences -->
     <br /><div v-if="!incidence">
       <table>
@@ -82,7 +81,6 @@
         @stepBack="back()"
         />
     </div>
-  </div>
 </template>
 
 <script>
