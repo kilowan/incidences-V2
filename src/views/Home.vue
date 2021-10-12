@@ -12,7 +12,6 @@
             <input class="input" name="username" type="text" id="username" v-model="form.username" placeholder="username" required />
             <input class="input" name="password" type="password" id="password" v-model="form.pass" placeholder="password" required/>
             <button class="btn btn-primary" @click="onSubmit()" v-if="form.username && form.pass" type="submit" variant="primary">LOGIN</button>
-            <!--<router-link to="/about">Home</router-link>-->
 
           </div>
       </div>
@@ -22,10 +21,6 @@
         <p>Trabajo realizado por Jose Javier Valero Fuentes y Juan Francisco Navarro Ramiro para el curso de ASIR 2º X migrado a Vue.js</p>
       </div>
     </div>
-  <!--<div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>-->
 </template>
 
 <script>

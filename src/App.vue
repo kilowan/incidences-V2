@@ -1,33 +1,5 @@
 <template>
   <div id="app">
-    <!-- Login -->
-    <!--<div class="body">
-      <div class="cabecera">
-        <div class="nombre">
-          <p class="brand">J&J.SA </p>
-        </div>
-        <div class="mensaje">
-          <p class="welcome">Bienvenidos</p>
-        </div>
-          <div class="login">
-            <input class="input" name="username" type="text" id="username" v-model="form.username" placeholder="username" required />
-            <input class="input" name="password" type="password" id="password" v-model="form.pass" placeholder="password" required/>
-            <button class="btn btn-primary" @click="onSubmit()" v-if="form.username && form.pass" type="submit" variant="primary">LOGIN</button>
-            <router-link to="/about">Home</router-link>
-
-          </div>
-      </div>
-      <div class="cuerpo">
-      </div>
-      <div class="Pie">
-        <p>Trabajo realizado por Jose Javier Valero Fuentes y Juan Francisco Navarro Ramiro para el curso de ASIR 2º X migrado a Vue.js</p>
-      </div>
-    </div>-->
-
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
     <router-view/>
   </div>
 </template>

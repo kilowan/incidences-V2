@@ -3,9 +3,9 @@
   <div class="cabecera">
     <p class="mensaje">Bienvenido {{user.name}} {{user.surname1}} {{user.surname2}}</p>
     <div class="Logo">
-      <a @click="logOut()" href="./">
+      <router-link @click="logOut()" to="/">
         <img class="cierra" src="../shutdown.png" alt="Cerrar sesión" />
-      </a>
+      </router-link>
     </div>
     <div class="opciones">
       <a href="#" @click="add('MakeIncidence')" v-if="user.permissions.includes('13')" class="link">Crear parte</a>
@@ -36,9 +36,6 @@
       @linked="reload=false"
       @reload="reloading()"
       />
-    </div>
-    <div v-else class="cuerpo">
-      <p>Not working</p>
     </div>
 
     <div class="Pie">
