@@ -1,7 +1,6 @@
 <template>
-  <div id="app">
     <!-- Login -->
-    <!--<div class="body">
+    <div class="home">
       <div class="cabecera">
         <div class="nombre">
           <p class="brand">J&J.SA </p>
@@ -13,7 +12,7 @@
             <input class="input" name="username" type="text" id="username" v-model="form.username" placeholder="username" required />
             <input class="input" name="password" type="password" id="password" v-model="form.pass" placeholder="password" required/>
             <button class="btn btn-primary" @click="onSubmit()" v-if="form.username && form.pass" type="submit" variant="primary">LOGIN</button>
-            <router-link to="/about">Home</router-link>
+            <!--<router-link to="/about">Home</router-link>-->
 
           </div>
       </div>
@@ -22,19 +21,17 @@
       <div class="Pie">
         <p>Trabajo realizado por Jose Javier Valero Fuentes y Juan Francisco Navarro Ramiro para el curso de ASIR 2º X migrado a Vue.js</p>
       </div>
-    </div>-->
-
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
     </div>
-    <router-view/>
-  </div>
+  <!--<div class="home">
+    <img alt="Vue logo" src="../assets/logo.png">
+    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  </div>-->
 </template>
+
 <script>
 import axios from 'axios';
 export default {
-  name: 'Login',
+  name: 'Home',
   //components: {home},
   data:function()
   {
@@ -50,6 +47,7 @@ export default {
   methods: {
     onSubmit: function()
     {
+      debugger; //eslint-disable-line no-debugger
       axios.get("http://localhost:8082/newMenu.php?funcion=checkCredentials&username="+ this.form.username+"&pass="+this.form.pass)
       .then( data => {
         this.$router.push(
@@ -65,7 +63,6 @@ export default {
   mounted(){}
 }
 </script>
-
 <style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
@@ -77,7 +74,7 @@ export default {
 }
 body
 {
-	background:url("fondo.gif");
+	background:url("../fondo.gif");
 	font-size: 100%;
 	font-family: sans-serif;
 }
@@ -162,7 +159,7 @@ th
 {
 	border: 1px solid white;
     color: black;
-	background: #d7dee3 url("tabla.gif") repeat-x top left;
+	background: #d7dee3 url("../tabla.gif") repeat-x top left;
 }
 td
 {
