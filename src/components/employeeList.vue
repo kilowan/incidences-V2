@@ -23,8 +23,7 @@
               <td>{{employee.surname2}}</td>
               <td>{{employee.tipo}}</td>
               <td style="width:10%; height: 2%;">
-                <!--<a @click="deleteEmployee(employee.id)" href="#">-->
-                <a @click="$bvModal.show('warning')" href="#">
+                <a @click="deleteEmployee(employee.id)" href="#">
                   <img class="cierra" src="./delete.png" alt="Borrar empleado" style="width:12%; height: 12%;"/>
                 </a>
                 <a @click="edit(employee)" href="#">
@@ -37,7 +36,7 @@
           </tr>
           <tr>
             <td colspan="8">
-                <a href="#" @click="add()">Agregar nuevo</a>
+                <a href="#" @click="$bvModal.show('new')">Agregar nuevo</a>
             </td>
           </tr>
       </table>
@@ -51,17 +50,18 @@
       @stepBack="mod = 'employeeList'"
       @reload="reload()"/>
     </div>
-    <div v-else-if="mod=='add'" id="add">
       <add-employee 
-      @stepBack="mod = 'employeeList'"
-      @reload="reload()"/>
-    </div>
+        @stepBack="mod = 'employeeList'"
+        @reload="reload()"
+      />
       <b-modal id="warning" hide-header hide-footer>
         <div class="d-block text-center">
           <h3>¿Seguro que quieres borrar este empleado?</h3>
         </div>
-        <b-button class="mt-3" block @click="$bvModal.hide('warning')">Ok</b-button>
-        <b-button class="mt-3" block @click="$bvModal.hide('warning')">Cancel</b-button>
+        <div class="modal-footer">
+          <b-button block @click="$bvModal.hide('warning')">Cancel</b-button>
+          <b-button block @click="confirmDelete()">Ok</b-button>
+        </div>
       </b-modal>
   </div>
 </template>
@@ -87,7 +87,8 @@ export default {
       employees: undefined,
       employee: undefined,
       employeSelected: undefined,
-      mod: 'employeeList'
+      mod: 'employeeList',
+      selectedToDelete:undefined
     }
   },
   methods: {
@@ -110,15 +111,21 @@ export default {
       this.load();
       this.mod = 'employeeList';
     },
-    deleteEmployee: function(id)
-    {
+    deleteEmployee: function(id) {
+      this.selectedToDelete = id;
+        this.$nextTick(() => {
+          this.$bvModal.show('warning');
+        });
+    },
+    confirmDelete: function() {
       axios({
       method: 'get',
-      url: 'http://localhost:8082/employee.php?funcion=removeEmployee&id=' + id,
+      url: 'http://localhost:8082/employee.php?funcion=removeEmployee&id=' + this.selectedToDelete,
       })
-      .then(
-        this.load()
-      );
+      .then(()=> {
+        this.$bvModal.hide('warning');
+        this.load();
+      });
     },
     load: function()
     {
