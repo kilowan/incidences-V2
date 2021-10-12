@@ -1,5 +1,5 @@
 <template>
-  <lx-empty>
+  <div>
     <table>
       <tr>
           <th colspan="2">Piezas afectadas:</th>
@@ -20,7 +20,7 @@
           </td>
         </tr>
     </table><br />
-  </lx-empty>
+  </div>
 </template>
 
 <script>

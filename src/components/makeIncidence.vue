@@ -1,5 +1,5 @@
 <template>
-  <lx-empty>
+  <div>
     <!-- MakeIncidence -->
     <br /><table>
       <tr>
@@ -41,7 +41,7 @@
       </table><br />
     </div>
     <a href="#" v-if="selectedPieces.length>0 && description" @click="addIncidence()" class="link" center>Enviar</a>
-  </lx-empty>
+  </div>
 </template>
 
 <script>

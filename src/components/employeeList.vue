@@ -1,5 +1,5 @@
 <template>
-  <lx-empty>
+  <div>
     <!-- employeeList -->
     <div id="employeList" v-if="mod=='employeeList'">
       <br /><table>
@@ -23,7 +23,8 @@
               <td>{{employee.surname2}}</td>
               <td>{{employee.tipo}}</td>
               <td style="width:10%; height: 2%;">
-                <a @click="deleteEmployee(employee.id)" href="#">
+                <!--<a @click="deleteEmployee(employee.id)" href="#">-->
+                <a @click="$bvModal.show('warning')" href="#">
                   <img class="cierra" src="./delete.png" alt="Borrar empleado" style="width:12%; height: 12%;"/>
                 </a>
                 <a @click="edit(employee)" href="#">
@@ -55,7 +56,14 @@
       @stepBack="mod = 'employeeList'"
       @reload="reload()"/>
     </div>
-  </lx-empty>
+      <b-modal id="warning" hide-header hide-footer>
+        <div class="d-block text-center">
+          <h3>¿Seguro que quieres borrar este empleado?</h3>
+        </div>
+        <b-button class="mt-3" block @click="$bvModal.hide('warning')">Ok</b-button>
+        <b-button class="mt-3" block @click="$bvModal.hide('warning')">Cancel</b-button>
+      </b-modal>
+  </div>
 </template>
 
 <script>

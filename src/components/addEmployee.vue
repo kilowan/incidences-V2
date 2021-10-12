@@ -1,5 +1,5 @@
 <template>
-  <lx-empty>
+  <div>
     <!-- addEmployee -->
     <br />
     <div class="nuevoemp">
@@ -32,7 +32,7 @@
     <div>
       <a href="#" @click="back()" class="link" center>Atrás</a>
     </div>
-  </lx-empty>
+  </div>
 </template>
 
 <script>

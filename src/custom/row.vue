@@ -5,7 +5,7 @@
       :header="header" 
       :link="info.hasData" 
       :text="info.inName" 
-      @select-tab="$emit('selectTab', info.outName)"
+      @selectTab="$emit('selectTab', info.outName)"
   />
   </tr>
 </template>

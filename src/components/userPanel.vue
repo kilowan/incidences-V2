@@ -1,12 +1,12 @@
 <template>
-  <lx-empty>
+  <div>
     <!-- userInfo -->
     <user-info :userData="user"/>
     <!-- incidences -->
     <incidences :user="user" :incidences="incidences" :admin="true"/>
     <!-- userInfo -->
     <statistics :user="user"/>
-  </lx-empty>
+  </div>
 </template>
 
 <script>

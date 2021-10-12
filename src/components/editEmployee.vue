@@ -1,5 +1,5 @@
 <template>
-  <lx-empty>
+  <div>
     <!-- editEmployee -->
       <br />
     <table>
@@ -26,7 +26,7 @@
         </tr>
     </table><br/>
     <a href="#" @click="back()" class="link" center>Atrás</a>
-  </lx-empty>
+  </div>
 </template>
 
 <script>

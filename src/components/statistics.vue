@@ -1,5 +1,5 @@
 <template>
-  <lx-empty>
+  <div>
     <!-- globalstatistics -->
     <br /><div v-if="globalStatistics && user.permissions.includes('17')" id="globalStatistics">
       <table>
@@ -52,7 +52,7 @@
           </tr>
       </table><br />
     </div>
-  </lx-empty>
+  </div>
 </template>
 
 <script>
