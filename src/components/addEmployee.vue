@@ -1,8 +1,42 @@
 <template>
-  <div>
+  <!--<div>-->
+    <b-modal class="nuevoemp" id="new" hide-header hide-footer>
+      <!--ok.prevent-->
+      <div class="d-block text-center">
+        <h1>Hoja del nuevo empleado:</h1><br />
+        <label>DNI:</label>
+        <input v-model="dni"/><br />
+        <label>Nombre:</label>
+        <input v-model="name"/><br />
+        <label>Primer Apellido:</label>
+        <input v-model="surname1"/><br />
+        <label>Segundo Apellido:</label>
+        <input v-model="surname2"/><br />
+        <label>Username:</label>
+        <input v-model="username"/><br />
+        <label>Contraseña:</label>
+        <input v-model="password"/><br />
+        <label>Contraseña:</label>
+        <input v-model="password"/><br />
+        <p> ¿Que tipo de empleado es?:</p>
+        <p>
+            <select v-model="type" required>
+                <option value="Limpiador">Un limpiador</option>
+                <option value="Encargado">Un encargado</option>
+                <option value="Tecnico">Un tecnico</option>
+                <option value="Admin">Un administrador</option>
+                <option value="Temporal">Uno temporal</option>
+                <option value="Otro">Otro tipo aún no definido</option>
+            </select>
+        </p><br />
+      </div>
+      <div class="modal-footer">
+        <b-button block @click="$bvModal.hide('new')">Cancel</b-button>
+        <b-button block @click="save()">Guardar</b-button>
+      </div>
+    </b-modal>
     <!-- addEmployee -->
-    <br />
-    <div class="nuevoemp">
+    <!--<div class="nuevoemp">
       <h1>Hoja del nuevo empleado:</h1><br />
       <label>DNI:</label>
       <input type="text" v-model="dni" required /><br />
@@ -31,8 +65,8 @@
     </div><br />
     <div>
       <a href="#" @click="back()" class="link" center>Atrás</a>
-    </div>
-  </div>
+    </div>-->
+  <!--</div>-->
 </template>
 
 <script>
