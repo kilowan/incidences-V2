@@ -81,33 +81,33 @@ export default {
     editEmployee,
     addEmployee,
   },
-  data:function()
-  {
+  data:function() {
     return {
       employees: undefined,
       employee: undefined,
       employeSelected: undefined,
       mod: 'employeeList',
-      selectedToDelete:undefined
+      selectedToDelete: undefined
     }
   },
   methods: {
-    panel: function(employee)
-    {
+    panel: function(employee) {
       this.employee = employee;
       this.mod = 'panel';
     },
-    edit: function(employee)
-    {
+    edit: function(employee) {
       this.employeSelected = employee;
       this.mod = 'edit';
+      /*this.$nextTick(() => {
+        this.$bvModal.show('editemp');
+      });*/
     },
-    add:function()
-    {
-      this.mod = 'add';
+    add:function() {
+      this.$nextTick(() => {
+        this.$bvModal.show('new');
+      });
     },
-    reload: function()
-    {
+    reload: function() {
       this.load();
       this.mod = 'employeeList';
     },
@@ -127,8 +127,7 @@ export default {
         this.load();
       });
     },
-    load: function()
-    {
+    load: function() {
       axios({
       method: 'get',
       url: 'http://localhost:8082/employee.php?funcion=getEmpolyeeList',
@@ -138,7 +137,7 @@ export default {
       );
     },
   },
-  mounted(){
+  mounted() {
     this.load();
   }
 }

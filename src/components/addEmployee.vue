@@ -16,8 +16,6 @@
         <input v-model="username"/><br />
         <label>Contraseña:</label>
         <input v-model="password"/><br />
-        <label>Contraseña:</label>
-        <input v-model="password"/><br />
         <p> ¿Que tipo de empleado es?:</p>
         <p>
             <select v-model="type" required>
@@ -35,38 +33,6 @@
         <b-button block @click="save()">Guardar</b-button>
       </div>
     </b-modal>
-    <!-- addEmployee -->
-    <!--<div class="nuevoemp">
-      <h1>Hoja del nuevo empleado:</h1><br />
-      <label>DNI:</label>
-      <input type="text" v-model="dni" required /><br />
-      <label>Nombre:</label>
-      <input type="text" v-model="name" required /><br />
-      <label>Primer Apellido:</label>
-      <input type="text" v-model="surname1" required /><br />
-      <label>Segundo Apellido:</label>
-      <input type="text" v-model="surname2" /><br />
-      <label>Username:</label>
-      <input type="username" v-model="username" required /><br />
-      <label>Contraseña:</label>
-      <input type="password" v-model="password" required /><br />
-      <p> ¿Que tipo de empleado es?:</p>
-      <p>
-          <select v-model="type" required>
-              <option value="Limpiador">Un limpiador</option>
-              <option value="Encargado">Un encargado</option>
-              <option value="Tecnico">Un tecnico</option>
-              <option value="Admin">Un administrador</option>
-              <option value="Temporal">Uno temporal</option>
-              <option value="Otro">Otro tipo aún no definido</option>
-          </select>
-      </p><br />
-      <a href="#" @click="save()">Guardar</a><br /> 
-    </div><br />
-    <div>
-      <a href="#" @click="back()" class="link" center>Atrás</a>
-    </div>-->
-  <!--</div>-->
 </template>
 
 <script>
@@ -81,11 +47,12 @@ export default {
   data:function()
   {
     return {
-      username: undefined,
-      password: undefined,
+      dni: undefined,
       name: undefined,
       surname1: undefined,
       surname2: undefined,
+      username: undefined,
+      password: undefined,
       type: undefined,
     }
   },
