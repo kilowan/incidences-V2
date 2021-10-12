@@ -44,15 +44,15 @@
     <div v-else-if="mod=='panel'" id="panel">
       <user-panel :user="user" :incidences="incidences"/>
     </div>
-      <b-modal id="warning" hide-header hide-footer>
-        <div class="d-block text-center">
-          <h3>¿Seguro que quieres borrar este empleado?</h3>
-        </div>
-        <div class="modal-footer">
-          <b-button block @click="$bvModal.hide('warning')">Cancel</b-button>
-          <b-button block @click="confirmDelete()">Ok</b-button>
-        </div>
-      </b-modal>
+    <b-modal id="warning" hide-header hide-footer>
+      <div class="d-block text-center">
+        <h3>¿Seguro que quieres borrar este empleado?</h3>
+      </div>
+      <div class="modal-footer">
+        <b-button block @click="$bvModal.hide('warning')">Cancel</b-button>
+        <b-button block @click="confirmDelete()">Ok</b-button>
+      </div>
+    </b-modal>
     <b-modal class="nuevoemp" id="new" hide-header hide-footer>
       <!--ok.prevent-->
       <div class="d-block text-center">
