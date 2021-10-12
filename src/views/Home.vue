@@ -42,7 +42,6 @@ export default {
   methods: {
     onSubmit: function()
     {
-      debugger; //eslint-disable-line no-debugger
       axios.get("http://localhost:8082/newMenu.php?funcion=checkCredentials&username="+ this.form.username+"&pass="+this.form.pass)
       .then( data => {
         this.$router.push(

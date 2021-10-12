@@ -1,4 +1,5 @@
 <template>
+  <div>
     <!-- own incidences -->
     <br /><div v-if="!incidence">
       <table>
@@ -6,7 +7,7 @@
           v-if="infoData"
           :data="infoData"
           :header="true"
-          @select-tab="selectTab($event)"
+          @selectTab="selectTab($event)"
         />
       </table><br />
       <div v-if="checkPermissions(user.permissions, ['6', '7', '8', '9'])">
@@ -81,6 +82,7 @@
         @stepBack="back()"
         />
     </div>
+  </div>
 </template>
 
 <script>
@@ -143,7 +145,7 @@ export default {
         return false;
       }
     },
-    selectTab:function(tab)
+    selectTab: function(tab)
     {
       this.tab = tab;
     },

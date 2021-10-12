@@ -46,7 +46,12 @@
 
 <script>
 
+import makeIncidence from './makeIncidence.vue';
 import axios from 'axios';
+import userInfo from './userInfo.vue';
+import statistics from './statistics.vue';
+import employeeList from './employeeList.vue';
+import incidences from './incidences.vue';
 
 export default {
   name: 'main',
@@ -57,7 +62,11 @@ export default {
     },*/
   },
   components: {
-    //axios
+    makeIncidence,
+    userInfo,
+    statistics,
+    employeeList,
+    incidences,
   },
   data:function()
   {
@@ -68,6 +77,7 @@ export default {
       incidences: undefined,
       incidencesCount: 0,
       reload: false,
+      username: undefined,
     }
   },
  methods: {
@@ -88,7 +98,7 @@ export default {
       axios.get("http://localhost:8082/employee.php?funcion=getEmployeeByUsername&username="+ data)
       .then( datas => {
         this.user = datas.data;
-        this.username = data.username;
+        this.username = data;
         this.page = 'Menu';
         axios.get("http://localhost:8082/newMenu.php?funcion=getAllincidences")
         .then( datas => {
@@ -152,7 +162,6 @@ export default {
     }
   },
   mounted(){
-    debugger; //eslint-disable-line no-debugger
     if(this.$route.params.username) this.logedIn(this.$route.params.username);
   }
 }
