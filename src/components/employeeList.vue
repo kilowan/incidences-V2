@@ -44,16 +44,6 @@
     <div v-else-if="mod=='panel'" id="panel">
       <user-panel :user="user" :incidences="incidences"/>
     </div>
-    <div v-else-if="mod=='edit'" id="edit">
-      <edit-employee 
-      :user="employeSelected"
-      @stepBack="mod = 'employeeList'"
-      @reload="reload()"/>
-    </div>
-      <add-employee 
-        @stepBack="mod = 'employeeList'"
-        @reload="reload()"
-      />
       <b-modal id="warning" hide-header hide-footer>
         <div class="d-block text-center">
           <h3>¿Seguro que quieres borrar este empleado?</h3>
@@ -63,6 +53,58 @@
           <b-button block @click="confirmDelete()">Ok</b-button>
         </div>
       </b-modal>
+    <b-modal class="nuevoemp" id="new" hide-header hide-footer>
+      <!--ok.prevent-->
+      <div class="d-block text-center">
+        <h1>Hoja del nuevo empleado:</h1><br />
+        <label>DNI:</label>
+        <input v-model="dni"/><br />
+        <label>Nombre:</label>
+        <input v-model="name"/><br />
+        <label>Primer Apellido:</label>
+        <input v-model="surname1"/><br />
+        <label>Segundo Apellido:</label>
+        <input v-model="surname2"/><br />
+        <label>Username:</label>
+        <input v-model="username"/><br />
+        <label>Contraseña:</label>
+        <input v-model="password"/><br />
+        <p> ¿Que tipo de empleado es?:</p>
+        <p>
+            <select v-model="type" required>
+                <option value="Limpiador">Un limpiador</option>
+                <option value="Encargado">Un encargado</option>
+                <option value="Tecnico">Un tecnico</option>
+                <option value="Admin">Un administrador</option>
+                <option value="Temporal">Uno temporal</option>
+                <option value="Otro">Otro tipo aún no definido</option>
+            </select>
+        </p><br />
+      </div>
+      <div class="modal-footer">
+        <b-button block @click="cancel('new')">Cancel</b-button>
+        <b-button block @click="save()">Guardar</b-button>
+      </div>
+    </b-modal>
+    <b-modal class="editemp" id="editemp" hide-header hide-footer>
+      <div class="d-block text-center" v-if="user">
+        <h1>Editar empleado</h1><br />
+        <label>DNI:</label>
+        <input disabled v-model="dni"/><br />
+        <label>Nombre:</label>
+        <input v-model="name"/><br />
+        <label>Primer Apellido:</label>
+        <input v-model="surname1"/><br />
+        <label>Segundo Apellido:</label>
+        <input v-model="surname2"/><br />
+        <label>Tipo:</label>
+        <input v-model="tipo" required />
+      </div>
+      <div class="modal-footer">
+        <b-button block @click="cancel('editemp')">Cancel</b-button>
+        <b-button block @click="save()">Guardar</b-button>
+      </div>
+    </b-modal>
   </div>
 </template>
 
@@ -70,16 +112,12 @@
 
 import axios from 'axios';
 import UserPanel from './userPanel.vue';
-import editEmployee from './editEmployee.vue';
-import addEmployee from './addEmployee.vue';
 
 export default {
   name: 'userInfo',
   props: ['user', 'incidences'],
   components: {
     UserPanel,
-    editEmployee,
-    addEmployee,
   },
   data:function() {
     return {
@@ -87,20 +125,109 @@ export default {
       employee: undefined,
       employeSelected: undefined,
       mod: 'employeeList',
-      selectedToDelete: undefined
+      selectedToDelete: undefined,
+      dni: undefined,
+      name: undefined,
+      surname1: undefined,
+      surname2: undefined,
+      username: undefined,
+      password: undefined,
+      tipo: undefined,
+      fields: [],
+      values: [],
     }
   },
   methods: {
+    update() {
+      this.fillData([this.name, this.surname1, this.surname2, this.tipo]);
+      if (this.fields.length >0) {
+        axios({
+          method: 'post',
+          url: 'http://localhost:8082/newMenu.php',
+          data: {
+            funcion: 'updateWorker',
+            dni: this.user.dni,
+            fields: this.fields,
+            values: this.values,
+          },
+          headers:[],
+        }).then(() =>{
+          this.$emit('reload');
+        });
+      }
+    },
+    reset: function() {
+      this.name = undefined;
+      this.surname1 = undefined;
+      this.surname2 = undefined;
+      this.tipo = undefined;
+      this.dni = undefined;
+      this.fields = [];
+      this.values = [];
+    },
+    checkField(field, field2) {
+      return field && field != field2? true: false
+    },
+    pushField(data, parity, name) {
+      if(this.checkField(data, parity))
+      {
+        this.values.push(data);
+        this.fields.push(name);
+      }
+    },
+    fillData(data) {
+      this.pushField(data[0], this.user.name, "nombre");
+      this.pushField(data[1], this.user.surname1, "apellido1");
+      this.pushField(data[2], this.user.surname2, "apellido2");
+      this.pushField(data[3], this.user.tipo, "tipo");
+    },
+    cancel: function(name) {
+      if(name === 'new'){
+        this.username = undefined;
+        this.password = undefined;
+      }
+      this.type = undefined;
+      this.dni = undefined;
+      this.name = undefined;
+      this.surname1 = undefined;
+      this.surname2 = undefined;
+      this.fields = [];
+      this.values = [];
+      this.$bvModal.hide(name);
+    },
+    save() {
+      axios({
+        method: 'post',
+        url: 'http://localhost:8082/newMenu.php',
+        data: {
+          funcion: 'addEmployee',
+          username: this.username,
+          password: this.password,
+          dni: this.dni,
+          name: this.name,
+          surname1: this.surname1,
+          surname2: this.surname2,
+          type: this.type,
+        },
+        headers:[],
+      }).then(
+        this.$emit('reload')
+      );
+    },
     panel: function(employee) {
       this.employee = employee;
       this.mod = 'panel';
     },
     edit: function(employee) {
       this.employeSelected = employee;
-      this.mod = 'edit';
-      /*this.$nextTick(() => {
+      this.name = employee.name;
+      this.surname1 = employee.surname1;
+      this.surname2 = employee.surname2;
+      this.tipo = employee.tipo;
+      this.dni = employee.dni;
+      this.$nextTick(() => {
         this.$bvModal.show('editemp');
-      });*/
+      });
     },
     add:function() {
       this.$nextTick(() => {
@@ -142,4 +269,14 @@ export default {
   }
 }
 </script>
-<style></style>
+<style>
+.nuevoemp
+{
+	text-align: center;
+	border: 2px solid black;
+  background-color: #d7dee3;
+	left: 30%;
+	width: 40%;
+	position: relative;
+}
+</style>
