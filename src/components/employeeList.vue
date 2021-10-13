@@ -114,7 +114,7 @@ import axios from 'axios';
 import UserPanel from './userPanel.vue';
 
 export default {
-  name: 'userInfo',
+  name: 'employeeList',
   props: ['user', 'incidences'],
   components: {
     UserPanel,

@@ -44,14 +44,12 @@ export default {
     {
       axios.get("http://localhost:8082/newMenu.php?funcion=checkCredentials&username="+ this.form.username+"&pass="+this.form.pass)
       .then( data => {
-        this.$router.push(
-			{
-				name: 'main', params: {
-					username: data.data.username
-					}
+        this.$router.push({
+          name: 'main', params: {
+            username: data.data.username
+          }
 				}
-			);
-      });
+			);});
     },
   },
   mounted(){}
