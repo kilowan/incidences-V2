@@ -71,14 +71,7 @@
         <input v-model="password"/><br />
         <p> ¿Que tipo de empleado es?:</p>
         <p>
-            <select v-model="tipo" required>
-                <option value="Limpiador">Un limpiador</option>
-                <option value="Encargado">Un encargado</option>
-                <option value="Tecnico">Un tecnico</option>
-                <option value="Admin">Un administrador</option>
-                <option value="Temporal">Uno temporal</option>
-                <option value="Otro">Otro tipo aún no definido</option>
-            </select>
+            <b-form-select v-model="selected" :options="options" size="sm" class="mt-3"></b-form-select>
         </p><br />
       </div>
       <div class="modal-footer">
@@ -92,17 +85,17 @@
         <label>DNI:</label>
         <input disabled v-model="dni"/><br />
         <label>Nombre:</label>
-        <input v-model="name"/><br />
+        <input :disabled="tipo === 'Admin'" v-model="name"/><br />
         <label>Primer Apellido:</label>
-        <input v-model="surname1"/><br />
+        <input :disabled="tipo === 'Admin'" v-model="surname1"/><br />
         <label>Segundo Apellido:</label>
-        <input v-model="surname2"/><br />
+        <input :disabled="tipo === 'Admin'" v-model="surname2"/><br />
         <label>Tipo:</label>
-        <input v-model="tipo" required />
+        <b-form-select :disabled="tipo === 'Admin'" v-model="tipo" :options="options" size="sm" class="mt-3"></b-form-select>
       </div>
       <div class="modal-footer">
         <b-button block @click="cancel('editemp')">Cancel</b-button>
-        <b-button block @click="update()">Actualizar</b-button>
+        <b-button :disabled="tipo === 'Admin'" block @click="update()">Actualizar</b-button>
       </div>
     </b-modal>
   </div>
@@ -135,6 +128,17 @@ export default {
       tipo: undefined,
       fields: [],
       values: [],
+      selected: null,
+      options: [
+        { value: null, text: 'Please select an option', default: true},
+        { value: 'Limpiador', text: 'Un limpiador' },
+        { value: 'Encargado', text: 'Un encargado' },
+        { value: 'Técnico', text: 'Un técnico' },
+        { value: 'Becario', text: 'Un becario' },
+        { value: 'Admin', text: 'Un administrador' },
+        { value: 'Temporal', text: 'Uno temporal' },
+        { value: 'Otro', text: 'Otro tipo aún no definido' }
+      ]
     }
   },
   methods: {
