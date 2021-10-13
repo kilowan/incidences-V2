@@ -1,43 +1,56 @@
 <template>
-<div v-if="user">
-  <div class="cabecera">
-    <p class="mensaje">Bienvenido {{user.name}} {{user.surname1}} {{user.surname2}}</p>
-    <div class="Logo">
-      <router-link @click="logOut()" to="/">
-        <img class="cierra" src="../shutdown.png" alt="Cerrar sesión" />
-      </router-link>
+  <div v-if="user">
+    <div class="cabecera">
+      <p class="mensaje">Bienvenido {{user.name}} {{user.surname1}} {{user.surname2}}</p>
+      <div class="Logo">
+        <router-link @click="logOut()" to="/">
+          <img class="cierra" src="../shutdown.png" alt="Cerrar sesión" />
+        </router-link>
+      </div>
+      <div class="opciones">
+        <a href="#" @click="add('MakeIncidence')" v-if="user.permissions.includes('13')" class="link">Crear parte</a>
+        <a href="#" @click="add('incidences')" v-if="incidencesCount >0" class="link">Ver partes</a>
+        <a href="#" @click="add('statistics')" v-if="user.permissions.includes('2')" class="link" >Estadísticas</a> 
+        <a href="#" @click="add('employeeList')" v-if="user.permissions.includes('16')" class="link">Lista empleados</a>
+        <a href="#" @click="add('user_info')" class="link" >Datos personales</a>
+      </div>
     </div>
-    <div class="opciones">
-      <a href="#" @click="add('MakeIncidence')" v-if="user.permissions.includes('13')" class="link">Crear parte</a>
-      <a href="#" @click="add('incidences')" v-if="incidencesCount >0" class="link">Ver partes</a>
-      <a href="#" @click="add('statistics')" v-if="user.permissions.includes('2')" class="link" >Estadísticas</a> 
-      <a href="#" @click="add('employeeList')" v-if="user.permissions.includes('16')" class="link">Lista empleados</a>
-      <a href="#" @click="add('user_info')" class="link" >Datos personales</a>
+    <div class="cuerpo">
+      <div v-if="check('MakeIncidence')">
+        <make-incidence 
+        v-if="user" 
+        :user="user" 
+        @closeForm="mod='Main'" 
+        class="mensaje"/>
+      </div>
+      <div v-else-if="check('user_info')">
+        <user-info  
+          v-if="user" 
+          :username="username" 
+          @reloadUser="reloadUser($event)
+        "/>
+      </div>
+      <div v-else-if="check('statistics')">
+        <statistics  v-if="user" :user="user"/>
+      </div>
+      <div v-else-if="check('employeeList')">
+        <employee-list  
+          v-if="user" 
+          :user="user" 
+          :incidences="incidences"
+        />
+      </div>
+      <div v-else-if="check('incidences')">
+        <incidences 
+          v-if="user" 
+          :user="user"
+          :reload="reload"
+          :incidences="incidences"
+          @linked="reload=false"
+          @reload="reloading()"
+        />
+      </div>
     </div>
-  </div>
-    <div v-if="check('MakeIncidence')" class="cuerpo">
-      <make-incidence v-if="user" :user="user" @closeForm="mod='Main'" class="mensaje"/>
-    </div>
-    <div v-else-if="check('user_info')" class="cuerpo">
-      <user-info  v-if="user" :username="username" @reloadUser="reloadUser($event)"/>
-    </div>
-    <div v-else-if="check('statistics')" class="cuerpo">
-      <statistics  v-if="user" :user="user"/>
-    </div>
-    <div v-else-if="check('employeeList')" class="cuerpo">
-      <employee-list  v-if="user" :user="user" :incidences="incidences"/>
-    </div>
-    <div v-else-if="check('incidences')" class="cuerpo">
-      <incidences 
-      v-if="user" 
-      :user="user"
-      :reload="reload"
-      :incidences="incidences"
-      @linked="reload=false"
-      @reload="reloading()"
-      />
-    </div>
-
     <div class="Pie">
       <p>Trabajo realizado por Jose Javier Valero Fuentes y Juan Francisco Navarro Ramiro para el curso de ASIR 2º X migrado a Vue.js</p>
     </div>
@@ -46,8 +59,8 @@
 
 <script>
 
-import makeIncidence from './makeIncidence.vue';
 import axios from 'axios';
+import makeIncidence from './makeIncidence.vue';
 import userInfo from './userInfo.vue';
 import statistics from './statistics.vue';
 import employeeList from './employeeList.vue';
