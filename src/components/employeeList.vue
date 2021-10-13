@@ -71,7 +71,7 @@
         <input v-model="password"/><br />
         <p> ¿Que tipo de empleado es?:</p>
         <p>
-            <select v-model="type" required>
+            <select v-model="tipo" required>
                 <option value="Limpiador">Un limpiador</option>
                 <option value="Encargado">Un encargado</option>
                 <option value="Tecnico">Un tecnico</option>
@@ -102,7 +102,7 @@
       </div>
       <div class="modal-footer">
         <b-button block @click="cancel('editemp')">Cancel</b-button>
-        <b-button block @click="save()">Guardar</b-button>
+        <b-button block @click="update()">Actualizar</b-button>
       </div>
     </b-modal>
   </div>
@@ -138,7 +138,7 @@ export default {
     }
   },
   methods: {
-    update() {
+    update: function() {
       this.fillData([this.name, this.surname1, this.surname2, this.tipo]);
       if (this.fields.length >0) {
         axios({
@@ -146,13 +146,14 @@ export default {
           url: 'http://localhost:8082/newMenu.php',
           data: {
             funcion: 'updateWorker',
-            dni: this.user.dni,
+            dni: this.employeSelected.dni,
             fields: this.fields,
             values: this.values,
           },
           headers:[],
         }).then(() =>{
-          this.$emit('reload');
+          this.cancel('editemp');
+          this.load();
         });
       }
     },
@@ -176,17 +177,17 @@ export default {
       }
     },
     fillData(data) {
-      this.pushField(data[0], this.user.name, "nombre");
-      this.pushField(data[1], this.user.surname1, "apellido1");
-      this.pushField(data[2], this.user.surname2, "apellido2");
-      this.pushField(data[3], this.user.tipo, "tipo");
+      this.pushField(data[0], this.employeSelected.name, "nombre");
+      this.pushField(data[1], this.employeSelected.surname1, "apellido1");
+      this.pushField(data[2], this.employeSelected.surname2, "apellido2");
+      this.pushField(data[3], this.employeSelected.tipo, "tipo");
     },
     cancel: function(name) {
       if(name === 'new'){
         this.username = undefined;
         this.password = undefined;
       }
-      this.type = undefined;
+      this.tipo = undefined;
       this.dni = undefined;
       this.name = undefined;
       this.surname1 = undefined;
@@ -207,11 +208,13 @@ export default {
           name: this.name,
           surname1: this.surname1,
           surname2: this.surname2,
-          type: this.type,
+          type: this.tipo,
         },
         headers:[],
-      }).then(
-        this.$emit('reload')
+      }).then(() =>{
+          this.cancel('new')
+          this.load();
+        }
       );
     },
     panel: function(employee) {
