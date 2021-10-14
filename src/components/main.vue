@@ -52,14 +52,15 @@
         <!-- MakeIncidence -->
         <h3>Crear parte</h3>
         <div v-if="pieces">
-          <label>¿Que pieza/s crees que falla/n?:</label><br />
-          <select v-model="selectedPiece" name="pieza">
-            <option v-for="(piece, index) in pieces" v-bind:key="index">{{ piece.name }}</option>
-          </select>
-          <button v-if="selectedPiece" @click="addPiece()">Añadir</button>
-          <button v-if="selectedPieces.length>0" @click="reset()">Reiniciar</button><br />
+          <label>¿Que pieza/s crees que falla/n?:</label> <br /> 
+          <b-form-select v-model="selectedPiece" name="pieza">
+            <b-form-select-option :value="null">Selecciona las piezas que fallan</b-form-select-option>
+            <b-form-select-option :value="piece.name" v-for="(piece) in pieces" :key="piece.id">{{ piece.name }}</b-form-select-option>
+          </b-form-select>
+          <b-button v-if="selectedPiece" @click="addPiece()">Añadir</b-button>
+          <b-button v-if="selectedPieces.length>0" @click="reset()">Reiniciar</b-button><br />
         </div>
-        <input type="textarea" placeholder="Descripción del problema" v-model="description"/><br />
+        <b-form-textarea placeholder="Descripción del problema" v-model="description"/><br />
         <div v-if="selectedPieces.length>0">
           <label>Piezas seleccionas:</label>
           <p>{{ concatPieces() }}</p>
@@ -109,7 +110,7 @@ export default {
       checked: false,
       choosen: '--',
       description: undefined,
-      selectedPiece: undefined,
+      selectedPiece: null,
       selectedPieces: [],
       PieceIdsSelected: [],
     }
@@ -121,7 +122,7 @@ export default {
       this.checked = false;
       this.choosen = '--';
       this.description = undefined;
-      this.selectedPiece = undefined;
+      this.selectedPiece = null;
       this.selectedPieces = [];
       this.PieceIdsSelected = [];
    },
