@@ -23,20 +23,20 @@
               <td>{{employee.surname2}}</td>
               <td>{{employee.tipo}}</td>
               <td style="width:10%; height: 2%;">
-                <a @click="deleteEmployee(employee.id)" href="#">
+                <b-link @click="deleteEmployee(employee.id)">
                   <img class="cierra" src="./delete.png" alt="Borrar empleado" style="width:12%; height: 12%;"/>
-                </a>
-                <a @click="edit(employee)" href="#">
+                </b-link>
+                <b-link @click="edit(employee)">
                   <img class="cierra" src="./edit.png" alt="Editar empleado" style="width:12%; height: 12%;"/>
-                </a>
-                <a @click="panel(employee)" href="#">
+                </b-link>
+                <b-link @click="panel(employee)">
                   <img class="cierra" src="./see.png" alt="Ver empleado" style="width:12%; height: 12%;"/>
-                </a>
+                </b-link>
               </td>
           </tr>
           <tr>
             <td colspan="8">
-                <a href="#" @click="$bvModal.show('new')">Agregar nuevo</a>
+                <b-link @click="$bvModal.show('new')">Agregar nuevo</b-link>
             </td>
           </tr>
       </table>
@@ -57,22 +57,13 @@
       <!--ok.prevent-->
       <div class="d-block text-center">
         <h1>Hoja del nuevo empleado:</h1><br />
-        <label>DNI:</label>
-        <input v-model="dni"/><br />
-        <label>Nombre:</label>
-        <input v-model="name"/><br />
-        <label>Primer Apellido:</label>
-        <input v-model="surname1"/><br />
-        <label>Segundo Apellido:</label>
-        <input v-model="surname2"/><br />
-        <label>Username:</label>
-        <input v-model="username"/><br />
-        <label>Contraseña:</label>
-        <input v-model="password"/><br />
-        <p> ¿Que tipo de empleado es?:</p>
-        <p>
-            <b-form-select v-model="selected" :options="options" size="sm" class="mt-3"></b-form-select>
-        </p><br />
+        <input placeholder="DNI" v-model="dni"/><br />
+        <input placeholder="Nombre" v-model="name"/><br />
+        <input placeholder="Primer Apellido" v-model="surname1"/><br />
+        <input placeholder="Segundo Apellido" v-model="surname2"/><br />
+        <input placeholder="Username" v-model="username"/><br />
+        <input placeholder="Contraseña" v-model="password"/><br />
+        <b-form-select v-model="selected" :options="options" size="sm" class="mt-3"></b-form-select><br />
       </div>
       <div class="modal-footer">
         <b-button block @click="cancel('new')">Cancel</b-button>
@@ -130,7 +121,7 @@ export default {
       values: [],
       selected: null,
       options: [
-        { value: null, text: 'Please select an option', default: true},
+        { value: null, text: 'Tipo', default: true},
         { value: 'Limpiador', text: 'Un limpiador' },
         { value: 'Encargado', text: 'Un encargado' },
         { value: 'Técnico', text: 'Un técnico' },
@@ -277,13 +268,13 @@ export default {
 }
 </script>
 <style>
-.nuevoemp
-{
-	text-align: center;
-	border: 2px solid black;
-  background-color: #d7dee3;
-	left: 30%;
-	width: 40%;
-	position: relative;
-}
+  .nuevoemp
+  {
+    text-align: center;
+    border: 2px solid black;
+    background-color: #d7dee3;
+    left: 30%;
+    width: 40%;
+    position: relative;
+  }
 </style>
