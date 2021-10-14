@@ -44,14 +44,12 @@ export default {
     {
       axios.get("http://localhost:8082/newMenu.php?funcion=checkCredentials&username="+ this.form.username+"&pass="+this.form.pass)
       .then( data => {
-        this.$router.push(
-			{
-				name: 'main', params: {
-					username: data.data.username
-					}
+        this.$router.push({
+          name: 'main', params: {
+            username: data.data.username
+          }
 				}
-			);
-      });
+			);});
     },
   },
   mounted(){}
@@ -149,7 +147,23 @@ table
 	position: relative;
 	border-spacing: 0px;
 }
+.table
+{
+	box-shadow: 5px 5px 10px #999;
+	border: 1px solid white;
+    background: white;
+	left: 10%;
+	width: 80%;
+	position: relative;
+	border-spacing: 0px;
+}
 th
+{
+	border: 1px solid white;
+    color: black;
+	background: #d7dee3 url("../tabla.gif") repeat-x top left;
+}
+.th
 {
 	border: 1px solid white;
     color: black;

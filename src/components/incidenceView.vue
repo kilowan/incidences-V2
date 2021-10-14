@@ -115,6 +115,15 @@
         </div>
       </div>
     <br /><a href="#" @click="back()" class="link" center>Atrás</a>
+    <b-modal id="warning" hide-header hide-footer>
+      <div class="d-block text-center">
+        <h3>¿Seguro que quieres borrar este parte?</h3>
+      </div>
+      <div class="modal-footer">
+        <b-button block @click="$bvModal.hide('warning')">Cancel</b-button>
+        <b-button block @click="confirmDelete()">Ok</b-button>
+      </div>
+    </b-modal>
   </div>
 </template>
 
@@ -130,8 +139,7 @@ export default {
     notesModule,
     piecesModule,
   },
-  data:function()
-  {
+  data:function() {
     return {
       menu: 'main',
       issueDesc: undefined,
@@ -143,17 +151,14 @@ export default {
     }
   },
   methods: {
-    back: function()
-    {
+    back: function() {
       this.$emit('stepBack');
     },
-    stepBack: function()
-    {
+    stepBack: function() {
       this.load();
       this.back();
     },
-    load: function()
-    {
+    load: function() {
       axios({
         method: 'get',
         url: 'http://localhost:8082/newMenu.php?funcion=getIncidenceById&id_part=' + this.incidence.id,
@@ -161,8 +166,7 @@ export default {
         this.issueDesc = data.data.issueDesc;
       });
     },
-    hide: function()
-    {
+    hide: function() {
       axios({
         method: 'get',
         url: 'http://localhost:8082/newMenu.php?funcion=hideIncidence&incidenceId=' + this.incidence.id + '&userId=' + this.user.id,
@@ -170,8 +174,7 @@ export default {
         this.$emit('reload', data);
       });
     },
-    show: function()
-    {
+    show: function() {
       axios({
         method: 'get',
         url: 'http://localhost:8082/newMenu.php?funcion=showIncidence&incidenceId=' + this.incidence.id + '&userId=' + this.user.id,
@@ -179,8 +182,10 @@ export default {
         this.$emit('reload', data);
       });
     },
-    deleteIncidence: function()
-    {
+    deleteIncidence: function() {
+      this.$bvModal.show('warning');
+    },
+    confirmDelete: function() {
       axios({
           method: 'get',
           url: 'http://localhost:8082/newMenu.php?funcion=deleteIncidence&incidenceId=' + this.incidence.id + '&userId=' + this.user.id,
@@ -188,17 +193,14 @@ export default {
           this.$emit('reload')
         );
     },
-    reload:function()
-    {
+    reload:function() {
       this.manu='main';
       this.$emit('reload');
     },
-    reloadoff:function()
-    {
+    reloadoff:function() {
       this.manu='main';
     },
-    editIncidence: function()
-    {
+    editIncidence: function() {
       if (this.incidence.issueDesc != this.issueDesc) {
         axios({
           method: 'post',
@@ -210,15 +212,12 @@ export default {
             employeeId: this.user.id,
           },
           headers: [],
-        }).then(
-          this.$emit('reload')
-        );
-      } else {
-        this.$emit('reloadoff');
-      }
+        })
+        .then(this.$emit('reload'));
+      } else this.$emit('reloadoff');
+      
     },
-      modifyIncidence: function()
-      {
+      modifyIncidence: function() {
         if (this.selected == 'cierraparte') {
           this.close = true;
         }
@@ -237,7 +236,7 @@ export default {
         }).then(this.$emit('reload'));
       },
   },
-  mounted(){
+  mounted() {
     this.load();
   }
 }

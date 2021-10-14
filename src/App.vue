@@ -6,12 +6,10 @@
 <script>
 export default {
   name: 'Login',
-  data:function()
-  {
+  data:function() {
     return {}
   },
-  methods: {
-  },
+  methods: {},
   mounted(){
     //eslint-disable-line no-debugger
   }

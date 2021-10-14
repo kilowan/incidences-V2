@@ -2,14 +2,14 @@
   <div>
     <!-- own incidences -->
     <br /><div v-if="!incidence">
-      <table>
-        <row 
-          v-if="infoData"
-          :data="infoData"
-          :header="true"
-          @selectTab="selectTab($event)"
-        />
-      </table><br />
+    <table>
+      <b-row>
+        <b-col v-if="newOwnIncidences.length >0 || newIncidences.length >0"><a href="#"  @click="selectTab('new')">Nuevos</a></b-col>
+        <b-col v-if="attendedOwnIncidences.length >0 || attendedIncidences.length >0"><a href="#"  @click="selectTab('current')">Atendidos</a></b-col>
+        <b-col v-if="closedOwnIncidences.length >0 || closedIncidences.length >0"><a href="#" @click="selectTab('old')">Cerrados</a></b-col>
+        <b-col v-if="hiddenOwnIncidences.length >0"><a href="#" @click="selectTab('hidden')">Ocultos</a></b-col>
+      </b-row>
+    </table><br/>
       <div v-if="checkPermissions(user.permissions, ['6', '7', '8', '9'])">
         <!-- new -->
         <incidences-view v-if="newOwnIncidences && tab=='new'"
@@ -89,7 +89,6 @@
 
 import incidencesView from './incidencesView.vue';
 import incidenceView from './incidenceView.vue';
-import row from '../custom/row.vue';
 
 export default {
   name: 'incidences',
@@ -97,7 +96,6 @@ export default {
   components: {
     incidencesView,
     incidenceView,
-    row,
   },
   data:function()
   {
@@ -111,7 +109,6 @@ export default {
       newIncidences: [],
       incidence: undefined,
       tab: 'new',
-      infoData: undefined,
     }
   },
   methods: {
@@ -179,30 +176,6 @@ export default {
         });
         this.closedIncidences = this.incidences.filter(data => {
           return data.solver.dni == this.user.dni && data.state == 3;
-        });
-      }
-      this.infoData = [
-        {
-          hasData: this.newOwnIncidences.length>0 || this.newIncidences.length>0? true: false,
-          inName: 'Nuevos',
-          outName: 'new',
-        },
-        {
-          hasData: this.attendedOwnIncidences.length>0 || this.attendedIncidences.length>0? true: false,
-          inName: 'Atendidos',
-          outName: 'current',
-        },
-        {
-          hasData: this.closedOwnIncidences.length>0 || this.closedIncidences.length>0? true: false,
-          inName: 'Cerrados',
-          outName: 'old',
-        },
-      ];
-      if (this.hiddenOwnIncidences.length>0) {
-        this.infoData.push({
-          hasData: this.hiddenOwnIncidences.length>0? true: false,
-          inName: 'Ocultos',
-          outName: 'hidden',
         });
       }
     },
