@@ -2,7 +2,7 @@
   <div>
     <!-- own incidences -->
     <br /><div v-if="!incidence">
-      <nav :style="style">
+      <nav :style="style" class="d-flex justify-content-around">
         <b-link v-if="newOwnIncidences.length >0 || newIncidences.length >0"  @click="selectTab('new')">Nuevos</b-link>{{ ' ' }}
         <b-link v-if="attendedOwnIncidences.length >0 || attendedIncidences.length >0"  @click="selectTab('current')">Atendidos</b-link>{{ ' ' }}
         <b-link v-if="closedOwnIncidences.length >0 || closedIncidences.length >0" @click="selectTab('old')">Cerrados</b-link>{{ ' ' }}
