@@ -2,14 +2,12 @@
   <div>
     <!-- own incidences -->
     <br /><div v-if="!incidence">
-    <table>
-      <b-row>
-        <b-col v-if="newOwnIncidences.length >0 || newIncidences.length >0"><a href="#"  @click="selectTab('new')">Nuevos</a></b-col>
-        <b-col v-if="attendedOwnIncidences.length >0 || attendedIncidences.length >0"><a href="#"  @click="selectTab('current')">Atendidos</a></b-col>
-        <b-col v-if="closedOwnIncidences.length >0 || closedIncidences.length >0"><a href="#" @click="selectTab('old')">Cerrados</a></b-col>
-        <b-col v-if="hiddenOwnIncidences.length >0"><a href="#" @click="selectTab('hidden')">Ocultos</a></b-col>
-      </b-row>
-    </table><br/>
+      <nav :style="style">
+        <b-link v-if="newOwnIncidences.length >0 || newIncidences.length >0"  @click="selectTab('new')">Nuevos</b-link>{{ ' ' }}
+        <b-link v-if="attendedOwnIncidences.length >0 || attendedIncidences.length >0"  @click="selectTab('current')">Atendidos</b-link>{{ ' ' }}
+        <b-link v-if="closedOwnIncidences.length >0 || closedIncidences.length >0" @click="selectTab('old')">Cerrados</b-link>{{ ' ' }}
+        <b-link v-if="hiddenOwnIncidences.length >0" @click="selectTab('hidden')">Ocultos</b-link>
+      </nav><br/>
       <div v-if="checkPermissions(user.permissions, ['6', '7', '8', '9'])">
         <!-- new -->
         <incidences-view v-if="newOwnIncidences && tab=='new'"
@@ -109,6 +107,15 @@ export default {
       newIncidences: [],
       incidence: undefined,
       tab: 'new',
+      style: {
+        boxShadow: '5px 5px 10px #999',
+        border: '1px solid white',
+        background: 'white',
+        left: '10%',
+        width: '80%',
+        position: 'relative',
+        borderSpacing: '0px'
+      }
     }
   },
   methods: {
