@@ -25,6 +25,7 @@
           :user="user" 
           :incidences="incidences"
         />
+        
       </div>
       <div v-else-if="check('incidences')">
         <incidences 
