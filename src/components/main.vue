@@ -7,13 +7,13 @@
           <img class="cierra" src="../shutdown.png" alt="Cerrar sesión" />
         </router-link>
       </div>
-      <div class="opciones">
-        <b-link @click="$bvModal.show('make-incidence')" v-if="user.permissions.includes('13')" class="link">Crear parte</b-link>
-        <b-link @click="add('incidences')" v-if="incidencesCount >0" class="link">Ver partes</b-link>
-        <b-link @click="add('statistics')" v-if="user.permissions.includes('2')" class="link" >Estadísticas</b-link> 
-        <b-link @click="add('employeeList')" v-if="user.permissions.includes('16')" class="link">Lista empleados</b-link>
-        <b-link @click="add('user_info')" class="link" >Datos personales</b-link>
-      </div>
+      <nav class="opciones">
+        <b-link class="link" @click="$bvModal.show('make-incidence')" v-if="user.permissions.includes('13')">Crear parte</b-link>
+        <b-link class="link" @click="add('incidences')" v-if="incidencesCount >0">Ver partes</b-link>
+        <b-link class="link" @click="add('statistics')" v-if="user.permissions.includes('2')" >Estadísticas</b-link>
+        <b-link class="link" @click="add('employeeList')" v-if="user.permissions.includes('16')">Lista empleados</b-link>
+        <b-link class="link" @click="add('user_info')" >Datos personales</b-link>
+      </nav>
     </div>
     <div class="cuerpo">
       <div v-if="check('user_info')">
