@@ -1,44 +1,50 @@
 <template>
   <div v-if="user">
     <!-- userInfo -->
-    <br /><table>
-      <tr>
-        <th>Datos personales</th>
-      </tr>
-    </table><br />
-    <table>
-      <tr>
-        <td>Id Empleado: {{ user.id }}</td>
-      </tr>
-      <tr>
-        <td>DNI: {{ user.dni }}</td>
-      </tr>
-      <tr>
-        <td v-if="!editName" @click="editname()">Nombre: {{ user.name }}</td>
-        <td v-if="editName">
-          Nombre: <input type="text" v-model="name"/>
-        </td>
-      </tr>
-      <tr>
-        <td v-if="!editSurname1" @click="editsurname1()">Primer apellido: {{ user.surname1 }}</td>
-        <td v-if="editSurname1">
-          Primer apellido: <input type="text" v-model="surname1"/>
-        </td>
-      </tr>
-      <tr>
-        <td  v-if="!editSurname2" @click="editsurname2()">Segundo apellido: {{ user.surname2 }}</td>
-        <td v-if="editSurname2">
-          Segundo apellido: <input type="text" v-model="surname2"/>
-        </td>
-      </tr>
-      <tr>
-        <td>Tipo: {{ user.tipo }}</td>
-      </tr>
-      <tr v-if="editSurname2 || editSurname1 || editName">
-        <td colspan="2"><a href="#" @click="saveData()">Guardar</a> <a href="#" @click="reset()">Reiniciar</a>
-      </td>
-    </tr>
-    </table><br />
+    <br />
+      <b-container :style="style">
+        <b-row><b-col>Datos personales</b-col></b-row>
+        <b-row>
+          <b-col><label>DNI: </label></b-col>
+          <b-col>{{ user.dni }}</b-col>
+        </b-row>
+        <b-row v-if="!edit">
+          <b-col><label >Nombre: </label></b-col>
+          <b-col>{{ user.name }}</b-col>
+        </b-row>
+        <b-row v-if="edit">
+          <b-col><label>Nombre: </label></b-col>
+          <b-col><input type="text" v-model="name"/></b-col>
+        </b-row>
+        <b-row v-if="!edit">
+          <b-col><label >Primer apellido: </label></b-col>
+          <b-col>{{ user.surname1 }}</b-col>
+        </b-row>
+        <b-row v-if="edit">
+          <b-col><label >Primer apellido:</label>/</b-col>
+          <b-col><input type="text" v-model="surname1"/></b-col>
+        </b-row>
+        <b-row v-if="!edit">
+          <b-col><label >Segundo apellido: </label></b-col>
+          <b-col>{{ user.surname2 }}</b-col>
+        </b-row>
+        <b-row v-if="edit">
+          <b-col><label>Segundo apellido: </label></b-col>
+          <b-col><input type="text" v-model="surname2"/></b-col>
+        </b-row>
+        <b-row>
+          <b-col><label>Tipo: </label></b-col>
+          <b-col>
+            <b-form-select :disabled="true" v-model="tipo" :options="options" size="sm" class="mt-3"></b-form-select>
+          </b-col>
+        </b-row>
+        <b-row v-if="edit" colspan="2">
+          <b-col><a href="#" @click="saveData()">Guardar</a> <a href="#" @click="reset()">Reiniciar</a></b-col>
+        </b-row>
+        <b-row v-if="!edit">
+          <b-col><a href="#" @click="editData()">Editar</a></b-col>
+        </b-row>
+    </b-container><br />
   </div>
 </template>
 
@@ -55,14 +61,21 @@ export default {
   {
     return {
       user: undefined,
-      editName: false,
-      editSurname1: false,
-      editSurname2: false,
+      edit: false,
       name: undefined,
       surname1: undefined,
       surname2: undefined,
       fields: [],
       values: [],
+      style: {
+        //boxShadow: '5px 5px 10px #999',
+        border: '1px dotted black',
+        background: 'white',
+        //left: '10%',
+        width: '80%',
+        position: 'relative',
+        //borderSpacing: '0px'
+      }
     }
   },
   methods: {
@@ -74,20 +87,11 @@ export default {
         this.fields.push(name);
       }
     },
-    editname: function()
-    {
+    editData: function() {
+      this.edit = true;
       this.name = this.user.name;
-      this.editName = true;
-    },
-    editsurname1: function()
-    {
       this.surname1 = this.user.surname1;
-      this.editSurname1 = true;
-    },
-    editsurname2: function()
-    {
       this.surname2 = this.user.surname2;
-      this.editSurname2 = true;
     },
     checkField(field, field2)
     {
@@ -126,9 +130,7 @@ export default {
     },
     reset: function()
     {
-      this.editName = false;
-      this.editSurname1 = false;
-      this.editSurname2 = false;
+      this.edit = false;
       this.name = undefined;
       this.surname1 = undefined;
       this.surname2 = undefined;
