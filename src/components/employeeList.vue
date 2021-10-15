@@ -16,7 +16,7 @@
               <th>Tipo de empleado</th>
               <th>--</th>
           </tr>
-          <tr v-for="(employee, index) in employees" v-bind:key="index">
+          <tr v-for="(employee, index) in employeesFiltered()" v-bind:key="index">
               <td>{{employee.dni}}</td>
               <td>{{employee.name}}</td>
               <td>{{employee.surname1}}</td>
@@ -42,7 +42,7 @@
       </table>
     </div>
     <div v-else-if="mod=='panel'" id="panel">
-      <user-panel :user="user" :incidences="incidences"/>
+      <user-panel :user="employee" :incidences="incidences"/>
     </div>
     <b-modal id="warning" hide-header hide-footer>
       <div class="d-block text-center">
@@ -133,6 +133,11 @@ export default {
     }
   },
   methods: {
+    employeesFiltered(){
+      return this.employees.filter(data => {
+        return data.tipo !== 'Admin';
+      })
+    },
     update: function() {
       this.fillData([this.name, this.surname1, this.surname2, this.tipo]);
       if (this.fields.length >0) {

@@ -7,23 +7,16 @@
           <img class="cierra" src="../shutdown.png" alt="Cerrar sesión" />
         </router-link>
       </div>
-      <div class="opciones">
-        <b-link @click="$bvModal.show('make-incidence')" v-if="user.permissions.includes('13')" class="link">Crear parte</b-link>
-        <b-link @click="add('incidences')" v-if="incidencesCount >0" class="link">Ver partes</b-link>
-        <b-link @click="add('statistics')" v-if="user.permissions.includes('2')" class="link" >Estadísticas</b-link> 
-        <b-link @click="add('employeeList')" v-if="user.permissions.includes('16')" class="link">Lista empleados</b-link>
-        <b-link @click="add('user_info')" class="link" >Datos personales</b-link>
-      </div>
+      <nav class="opciones">
+        <b-link class="link" @click="$bvModal.show('make-incidence')" v-if="user.permissions.includes('13')">Crear parte</b-link>
+        <b-link class="link" @click="add('incidences')" v-if="incidencesCount >0">Ver partes</b-link>
+        <b-link class="link" @click="add('statistics')" v-if="user.permissions.includes('2')" >Estadísticas</b-link>
+        <b-link class="link" @click="add('employeeList')" v-if="user.permissions.includes('16')">Lista empleados</b-link>
+        <b-link class="link" @click="$bvModal.show('user-info')" >Datos personales</b-link>
+      </nav>
     </div>
     <div class="cuerpo">
-      <div v-if="check('user_info')">
-        <user-info  
-          v-if="user" 
-          :username="username" 
-          @reloadUser="reloadUser($event)
-        "/>
-      </div>
-      <div v-else-if="check('statistics')">
+      <div v-if="check('statistics')">
         <statistics  v-if="user" :user="user"/>
       </div>
       <div v-else-if="check('employeeList')">
@@ -32,6 +25,7 @@
           :user="user" 
           :incidences="incidences"
         />
+        
       </div>
       <div v-else-if="check('incidences')">
         <incidences 
@@ -71,13 +65,49 @@
         <b-button :disabled="selectedPieces.length < 1 || !description" block @click="addIncidence()">Enviar</b-button>
       </div>
     </b-modal>
+    <b-modal id="user-info" hide-header hide-footer @hidden="closeEvent()">
+      <div class="d-block text-center">
+        <h3>Datos personales</h3>
+        <!-- userInfo -->
+        <b-container>
+          <b-row>
+            <b-col><label>DNI: </label></b-col>
+            <b-col><input :disabled="true" type="text" v-model="user.dni"/></b-col>
+          </b-row>
+          <b-row>
+            <b-col><label>Nombre: </label></b-col>
+            <b-col><input :disabled="!edit" type="text" v-model="user.name"/></b-col>
+          </b-row>
+          <b-row>
+            <b-col><label >Primer apellido:</label></b-col>
+            <b-col><input :disabled="!edit" type="text" v-model="user.surname1"/></b-col>
+          </b-row>
+          <b-row>
+            <b-col><label>Segundo apellido: </label></b-col>
+            <b-col><input :disabled="!edit" type="text" v-model="user.surname2"/></b-col>
+          </b-row><br />
+          <b-row>
+            <b-col><label>Tipo: </label></b-col>
+            <b-col>
+              <b-form-select :disabled="true" v-model="user.tipo" :options="options" size="sm" class="mt-3"></b-form-select>
+            </b-col>
+          </b-row>
+          <b-row colspan="2">
+            <b-col><a v-if="!edit" href="#" @click="editData()">Editar</a> <a v-if="edit" href="#" @click="resetUser()">Reiniciar</a></b-col>
+          </b-row>
+      </b-container>
+      </div>
+      <div class="modal-footer">
+        <b-button block @click="close()">Cancel</b-button>
+        <b-button :disabled="!user.name || !user.surname1" block @click="saveData()">Enviar</b-button>
+      </div>
+    </b-modal>
   </div>
 </template>
 
 <script>
 
 import axios from 'axios';
-import userInfo from './userInfo.vue';
 import statistics from './statistics.vue';
 import employeeList from './employeeList.vue';
 import incidences from './incidences.vue';
@@ -91,7 +121,6 @@ export default {
     },*/
   },
   components: {
-    userInfo,
     statistics,
     employeeList,
     incidences,
@@ -113,6 +142,22 @@ export default {
       selectedPiece: null,
       selectedPieces: [],
       PieceIdsSelected: [],
+      edit: false,
+      name: undefined,
+      surname1: undefined,
+      surname2: undefined,
+      fields: [],
+      values: [],
+      options: [
+        { value: null, text: 'Tipo', default: true},
+        { value: 'Limpiador', text: 'Un limpiador' },
+        { value: 'Encargado', text: 'Un encargado' },
+        { value: 'Técnico', text: 'Un técnico' },
+        { value: 'Becario', text: 'Un becario' },
+        { value: 'Admin', text: 'Un administrador' },
+        { value: 'Temporal', text: 'Uno temporal' },
+        { value: 'Otro', text: 'Otro tipo aún no definido' }
+      ]
     }
   },
  methods: {
@@ -235,7 +280,84 @@ export default {
       this.user = undefined;
       this.incidences = undefined;
       this.incidencesCount = 0;
-    }
+    },
+    pushField(data, parity, name)
+    {
+      if(this.checkField(data, parity))
+      {
+        this.values.push(data);
+        this.fields.push(name);
+      }
+    },
+    editData: function() {
+      this.edit = true;
+      this.name = this.user.name;
+      this.surname1 = this.user.surname1;
+      this.surname2 = this.user.surname2;
+    },
+    checkField(field, field2)
+    {
+      return field && field != field2? true: false
+    },
+    fillData(data)
+    {
+      this.pushField(data[0], this.user.name, "nombre");
+      this.pushField(data[1], this.user.surname1, "apellido1");
+      this.pushField(data[2], this.user.surname2, "apellido2");
+    },
+    saveData: function()
+    {
+      this.fillData([this.name, this.surname1, this.surname2]);
+      if (this.fields.length >0) 
+      {
+        axios({
+          method: 'post',
+          url: 'http://localhost:8082/newMenu.php',
+          data: {
+            funcion: 'updateWorker',
+            dni: this.user.dni? this.user.dni: this.userData.dni,
+            fields: this.fields,
+            values: this.values,
+          },
+          headers:[],
+        }).then(
+          this.$emit('reload')
+        );        
+      }
+      this.$emit('reloadUser', this.user.dni);
+      this.reset();
+      if (!this.userData) {
+        this.reloadUserData();
+      }
+    },
+    resetUser: function()
+    {
+      this.edit = false;
+      this.name = undefined;
+      this.surname1 = undefined;
+      this.surname2 = undefined;
+      this.fields = [];
+      this.values = [];
+    },
+    reloadUserData: function()
+    {
+      axios.get("http://localhost:8082/newMenu.php?funcion=getEmployeeByUsername&username="+ this.username)
+      .then( datas => {
+        this.user = datas.data;
+      });
+    },
+    close: function() {
+      this.$bvModal.hide('user-info');
+      this.startevent();
+    },
+    closeEvent: function() {
+      this.edit = false;
+      this.name = undefined;
+      this.surname1 = undefined;
+      this.surname2 = undefined;
+      this.fields = [];
+      this.values = [];
+    },
   },
   mounted() {
     if(this.$route.params.username) this.logedIn(this.$route.params.username);

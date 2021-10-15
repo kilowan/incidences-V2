@@ -55,14 +55,21 @@ export default {
   {
     return {
       user: undefined,
-      editName: false,
-      editSurname1: false,
-      editSurname2: false,
+      edit: false,
       name: undefined,
       surname1: undefined,
       surname2: undefined,
       fields: [],
       values: [],
+      style: {
+        //boxShadow: '5px 5px 10px #999',
+        border: '1px dotted black',
+        background: 'white',
+        //left: '10%',
+        width: '80%',
+        position: 'relative',
+        //borderSpacing: '0px'
+      }
     }
   },
   methods: {
@@ -74,20 +81,11 @@ export default {
         this.fields.push(name);
       }
     },
-    editname: function()
-    {
+    editData: function() {
+      this.edit = true;
       this.name = this.user.name;
-      this.editName = true;
-    },
-    editsurname1: function()
-    {
       this.surname1 = this.user.surname1;
-      this.editSurname1 = true;
-    },
-    editsurname2: function()
-    {
       this.surname2 = this.user.surname2;
-      this.editSurname2 = true;
     },
     checkField(field, field2)
     {
@@ -126,9 +124,7 @@ export default {
     },
     reset: function()
     {
-      this.editName = false;
-      this.editSurname1 = false;
-      this.editSurname2 = false;
+      this.edit = false;
       this.name = undefined;
       this.surname1 = undefined;
       this.surname2 = undefined;
